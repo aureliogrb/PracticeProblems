@@ -1,4 +1,6 @@
 package practice;
+import euler.Problems201to250;
+import euler.Problems650to700;
 import programmingPraxis.Problems;
 
 /*
@@ -16,19 +18,20 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
 
-        //Problems001to050 euler_prob0 = new Problems001to050();
-        //Problems201to250 euler_prob1 = new Problems201to250();
-        //Problems051to100 euler_prob2 = new Problems051to100();
+        //var euler_prob = new Problems001to050();
+        //var euler_prob = new Problems201to250();
+        //var euler_prob = new Problems051to100();
+        var euler_prob = new Problems650to700();
         
-        Problems praxis_prob1 = new Problems();
+        //Problems praxis_prob1 = new Problems();
         
         Long startTime, endTime;
 
         System.gc();
         
         startTime= System.nanoTime();
-        //System.out.println(euler_prob0.problem01());
-        praxis_prob1.anagramSolver("levrea" ,3);
+        System.out.println(euler_prob.problem684());
+        //praxis_prob1.anagramSolver("levrea" ,3);
         endTime = System.nanoTime();
 
         System.out.println(String.format("Time: %0$,.3f microseconds", (endTime-startTime)/1000.0));

@@ -18,6 +18,7 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 /**
@@ -102,23 +103,25 @@ public class Problems {
 
         //First load the dictionary words
         ArrayList<String> answers = new ArrayList<>();
+        char[] letters = anagram.toCharArray();
         Path path = FileSystems.getDefault().getPath("./src", "words_alpha.txt");
         try {
             List<String> lines = Files.readAllLines(path, Charset.defaultCharset());
-            for (String line : lines) {
-                if ((line.length() >= minSize) && lettersMatch(line, anagram)) {
-                    answers.add(line);
-                }
-
-            }
+            answers = lines.stream()
+                    .filter(x -> x.length() >= minSize
+                            && x.length() <= letters.length
+                            && lettersMatch(x, letters))
+                    .collect(Collectors.toCollection(ArrayList::new));
 
         } catch (IOException ex) {
             Logger.getLogger(Problems.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 
-        //Collections.sort(answers, Comparator.comparing(String::length).reversed().thenComparing(String::toString));
-        Collections.sort(answers, Comparator.comparing(String::length).thenComparing(String::toString));
+        //Collections.sort(answers, Comparator.comparing(String::length).reversed()
+        //                                    .thenComparing(String::toString));
+        Collections.sort(answers, Comparator.comparing(String::length)
+                                            .thenComparing(String::toString));
         if (!answers.isEmpty()) {
 
             int i = 0;
@@ -134,10 +137,9 @@ public class Problems {
         return answers.size();
     }
 
-    public boolean lettersMatch(String word, String letters) {
+    public boolean lettersMatch(String word, char[] letterChars) {
 
         char[] wordChars = word.toCharArray();
-        char[] letterChars = letters.toCharArray();
 
         if (wordChars.length <= letterChars.length) {
             Arrays.sort(wordChars);
