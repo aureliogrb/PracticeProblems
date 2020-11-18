@@ -21,17 +21,17 @@ public class Main {
         //var euler_prob = new Problems001to050();
         //var euler_prob = new Problems201to250();
         //var euler_prob = new Problems051to100();
-        var euler_prob = new Problems650to700();
+        //var euler_prob = new Problems650to700();
         
-        //Problems praxis_prob1 = new Problems();
+        Problems praxis_prob1 = new Problems();
         
         Long startTime, endTime;
 
         System.gc();
         
         startTime= System.nanoTime();
-        System.out.println(euler_prob.problem684());
-        //praxis_prob1.anagramSolver("levrea" ,3);
+        //System.out.println(euler_prob.problem684());
+        praxis_prob1.anagramSolver("muless" ,3,"");
         endTime = System.nanoTime();
 
         System.out.println(String.format("Time: %0$,.3f microseconds", (endTime-startTime)/1000.0));

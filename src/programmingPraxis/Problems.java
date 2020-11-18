@@ -81,8 +81,12 @@ public class Problems {
         //or to post your own solution or discuss the exercise in the comments below.
         return in.replace(" ", "  ");
     }
-
     public long anagramSolver(String anagram, int minSize) {
+
+        return anagramSolver(anagram,minSize,"");
+    }
+
+    public long anagramSolver(String anagram, int minSize, String mustInclude) {
         //For a given set of characters return the list of words in english, of minsize chars or more
         //that can be written with those letters.
         //
@@ -104,14 +108,18 @@ public class Problems {
         //First load the dictionary words
         ArrayList<String> answers = new ArrayList<>();
         char[] letters = anagram.toCharArray();
-        Path path = FileSystems.getDefault().getPath("./src", "words_alpha.txt");
+        //final String wordlist = "words_alpha.txt";
+        final String wordlist = "corncob_lowercase.txt";
+        Path path = FileSystems.getDefault().getPath("./src", wordlist);
         try {
             List<String> lines = Files.readAllLines(path, Charset.defaultCharset());
             answers = lines.stream()
                     .filter(x -> x.length() >= minSize
                             && x.length() <= letters.length
-                            && lettersMatch(x, letters))
+                            && lettersMatch(x, letters)
+                            && x.contains (mustInclude))
                     .collect(Collectors.toCollection(ArrayList::new));
+
 
         } catch (IOException ex) {
             Logger.getLogger(Problems.class.getName()).log(Level.SEVERE, null, ex);
@@ -121,16 +129,27 @@ public class Problems {
         //Collections.sort(answers, Comparator.comparing(String::length).reversed()
         //                                    .thenComparing(String::toString));
         Collections.sort(answers, Comparator.comparing(String::length)
-                                            .thenComparing(String::toString));
+                .thenComparing(String::toString));
         if (!answers.isEmpty()) {
 
             int i = 0;
+            int len = answers.get(0).length();
+
 
             for (String answer : answers) {
+                if (len != answer.length()) {
+                    len = answer.length();
+                    if (i != 0) {
+                        System.out.println();
+                        i = 0;
+                    }
+                }
                 System.out.print(answer + "    ");
                 i++;
-                if (i % 4 == 0)
+                if (i % 5 == 0) {
+                    i = 0;
                     System.out.println();
+                }
             }
         }
 
