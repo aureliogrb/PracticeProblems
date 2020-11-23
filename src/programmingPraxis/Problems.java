@@ -108,8 +108,10 @@ public class Problems {
         //First load the dictionary words
         ArrayList<String> answers = new ArrayList<>();
         char[] letters = anagram.toCharArray();
-        //final String wordlist = "words_alpha.txt";
-        final String wordlist = "corncob_lowercase.txt";
+
+
+        //final String wordlist = "words_alpha.txt"; //from https://github.com/dwyl/english-words/
+        final String wordlist = "corncob_lowercase.txt"; //from http://www.mieliestronk.com/wordlist.html
         Path path = FileSystems.getDefault().getPath("./src", wordlist);
         try {
             List<String> lines = Files.readAllLines(path, Charset.defaultCharset());

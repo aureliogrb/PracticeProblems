@@ -31,7 +31,7 @@ public class Main {
         
         startTime= System.nanoTime();
         //System.out.println(euler_prob.problem684());
-        praxis_prob1.anagramSolver("muless" ,3,"");
+        System.out.println(praxis_prob1.anagramSolver("egnipo" ,3,""));
         endTime = System.nanoTime();
 
         System.out.println(String.format("Time: %0$,.3f microseconds", (endTime-startTime)/1000.0));
