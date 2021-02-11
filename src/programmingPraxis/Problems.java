@@ -81,37 +81,37 @@ public class Problems {
         //or to post your own solution or discuss the exercise in the comments below.
         return in.replace(" ", "  ");
     }
-    public long anagramSolver(String anagram, int minSize) {
 
-        return anagramSolver(anagram,minSize,"");
+    public long anagramSolver(String anagram, int minSize, boolean moreWords) {
+
+        return anagramSolver(anagram, minSize, "", moreWords);
     }
 
-    public long anagramSolver(String anagram, int minSize, String mustInclude) {
+    public long anagramSolver(String anagram, int minSize, String mustInclude, boolean moreWords) {
         //For a given set of characters return the list of words in english, of minsize chars or more
         //that can be written with those letters.
         //
         //   e.g. for arey, 3 return:
-        //    aery
-        //    eyra
-        //    yare
-        //    year
-        //    are
-        //    aye
-        //    ear
-        //    era
-        //    ray
-        //    rya
-        //    rye
-        //    yar
-        //    yea
+        //are    aye    ear    era    ray
+        //rye    yea
+        //year
 
         //First load the dictionary words
         ArrayList<String> answers = new ArrayList<>();
         char[] letters = anagram.toCharArray();
+        //The algorithm expects the array to be sorted
+        //More efficient to sort now outside rather than for every word
+        Arrays.sort(letters);
 
+        if (mustInclude.length() > 0)
+            System.out.println("Must include: " + mustInclude);
 
-        //final String wordlist = "words_alpha.txt"; //from https://github.com/dwyl/english-words/
-        final String wordlist = "corncob_lowercase.txt"; //from http://www.mieliestronk.com/wordlist.html
+        String wordlist;// = "words_alpha.txt"; //from https://github.com/dwyl/english-words/
+        if (moreWords)
+            wordlist = "words_alpha.txt";
+        else
+            wordlist = "corncob_lowercase.txt"; //from http://www.mieliestronk.com/wordlist.html
+
         Path path = FileSystems.getDefault().getPath("./src", wordlist);
         try {
             List<String> lines = Files.readAllLines(path, Charset.defaultCharset());
@@ -119,7 +119,7 @@ public class Problems {
                     .filter(x -> x.length() >= minSize
                             && x.length() <= letters.length
                             && lettersMatch(x, letters)
-                            && x.contains (mustInclude))
+                            && x.contains(mustInclude))
                     .collect(Collectors.toCollection(ArrayList::new));
 
 
@@ -153,6 +153,7 @@ public class Problems {
                     System.out.println();
                 }
             }
+            System.out.println();
         }
 
         return answers.size();
@@ -164,7 +165,7 @@ public class Problems {
 
         if (wordChars.length <= letterChars.length) {
             Arrays.sort(wordChars);
-            Arrays.sort(letterChars);
+            //Arrays.sort(letterChars); presume they come in sorted...
             int l = 0;
             for (int w = 0; w < wordChars.length; w++) {
                 while (letterChars[l] != wordChars[w]) {
