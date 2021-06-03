@@ -27,15 +27,21 @@ public class Main {
 
         Long startTime, endTime;
 
+
+
         System.gc();
 
-        startTime = System.nanoTime();
+        startTime = new Long(System.nanoTime());
+
         /* System.out.println(euler_prob.problem684()); */
-        System.out.println(praxis_prob1.anagramSolver("rootmfc"
+        System.out.println(praxis_prob1.anagramSolver("crazily" +
+                        ""
                 , 3
                 , ""
                 , false));
         endTime = System.nanoTime();
+
+
 
         System.out.printf("Time: %1$,.3f microseconds", (endTime - startTime) / 1000.0);
         System.gc();
@@ -50,6 +56,7 @@ public class Main {
         */
 
 
+
 //        startTime= System.nanoTime();
 //        System.out.println(euler_prob1.problem48a());
 //        endTime = System.nanoTime();
@@ -57,6 +64,5 @@ public class Main {
 //        System.gc();
 
     }
-
-
+    
 }
