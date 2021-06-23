@@ -92,26 +92,32 @@ public class Problems {
         //that can be written with those letters.
         //
         //   e.g. for arey, 3 return:
-        //are    aye    ear    era    ray
-        //rye    yea
-        //year
+        //are    aye    ayr    ear    era
+        //ray    rya    rye    yea
+        //yare    year
 
-        //First load the dictionary words
-        ArrayList<String> answers = new ArrayList<>();
+
         char[] letters = anagram.toCharArray();
-        //The algorithm expects the array to be sorted
+        //The algorithm expects the letter array to be sorted
         //More efficient to sort now outside rather than for every word
         Arrays.sort(letters);
+
+        //Load the dictionary
+        ArrayList<String> answers = new ArrayList<>();
 
         if (mustInclude.length() > 0)
             System.out.println("Must include: " + mustInclude);
 
-        String wordlist;// = "words_alpha.txt"; //from https://github.com/dwyl/english-words/
-        if (moreWords)
-            wordlist = "words_alpha.txt";
+        String wordlist;
+        if (!moreWords)
+            wordlist = "wordlist.txt"; //combined and cleaned from www-personal.umich.edu and corncob_lowercase
         else
-            wordlist = "corncob_lowercase.txt"; //from http://www.mieliestronk.com/wordlist.html
+            wordlist = "words_alpha.txt"; //from https://github.com/dwyl/english-words/
 
+        //list available at:
+        // http://www-personal.umich.edu/~jlawler/wordlist.html
+        // "corncob_lowercase.txt"; //from http://www.mieliestronk.com/wordlist.html
+        // "words_alpha.txt"; //from https://github.com/dwyl/english-words/
         Path path = FileSystems.getDefault().getPath("./src", wordlist);
         try {
             List<String> lines = Files.readAllLines(path, Charset.defaultCharset());
@@ -128,8 +134,7 @@ public class Problems {
 
         }
 
-        //Collections.sort(answers, Comparator.comparing(String::length).reversed()
-        //                                    .thenComparing(String::toString));
+        
         Collections.sort(answers, Comparator.comparing(String::length)
                 .thenComparing(String::toString));
         if (!answers.isEmpty()) {
@@ -161,26 +166,40 @@ public class Problems {
 
     public boolean lettersMatch(String word, char[] letterChars) {
 
+        //Compares a word with an array of letters
+        //The algorithm assumes the array of letters is already sorted.  Duplicate letters are ok.
+
+        //Returns true if all the letters that comprise the word are included in the array
+        //If a word uses the same letter more than once the array has to contain
+        //that letter at least the same number of times to be a match.
+
+
         char[] wordChars = word.toCharArray();
 
-        if (wordChars.length <= letterChars.length) {
+        if (wordChars.length > letterChars.length)
+            return false;
+        else {
             Arrays.sort(wordChars);
-            //Arrays.sort(letterChars); presume they come in sorted...
+
+            //Arrays.sort(letterChars); presume they come in sorted.
             int l = 0;
             for (int w = 0; w < wordChars.length; w++) {
                 while (letterChars[l] != wordChars[w]) {
                     l++;
                     if (l == letterChars.length) {
+                        //We passed the last letter in the array. Comparison is zero-based.
+                        //so last l would be letterChars.length-1
                         return false;
                     }
                 }
                 if ((letterChars.length - l) < (wordChars.length - w))
+                    //If there are more letters to match in the word
+                    //than letters left in the array its not a match
                     return false;
                 l++;
             }
             return true;
         }
-        return false;
     }
 
     public long BinaryConcatenation(int n) {
@@ -203,6 +222,5 @@ public class Problems {
         //Since we will module 10^9+7 we can compute only the last
         // 30 bits
         return 0;
-
     }
 }

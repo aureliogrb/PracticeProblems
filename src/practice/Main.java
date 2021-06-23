@@ -31,11 +31,10 @@ public class Main {
 
         System.gc();
 
-        startTime = new Long(System.nanoTime());
+        startTime = System.nanoTime();
 
         /* System.out.println(euler_prob.problem684()); */
-        System.out.println(praxis_prob1.anagramSolver("crazily" +
-                        ""
+        System.out.println(praxis_prob1.anagramSolver("melony"
                 , 3
                 , ""
                 , false));
@@ -64,5 +63,5 @@ public class Main {
 //        System.gc();
 
     }
-    
+
 }
