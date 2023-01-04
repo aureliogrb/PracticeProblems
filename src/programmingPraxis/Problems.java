@@ -202,7 +202,7 @@ public class Problems {
         }
     }
 
-    public long BinaryConcatenation(int n) {
+    public int BinaryConcatenation(int n) {
         //https://programmingpraxis.com/2020/07/14/13013/
         //
         //We have an interview question today:
@@ -222,5 +222,84 @@ public class Problems {
         //Since we will module 10^9+7 we can compute only the last
         // 30 bits
         return 0;
+    }
+
+    public static String NumberSimplication(int input) {
+        //https://codegolf.stackexchange.com/questions/189786/simplification-of-numbers
+
+        //	How, you can’t remember the 6 or 7-digit phone number that appeared
+        //on the TV screen for a second?! Using the special technique described
+        //below, you will turn into a walking phonebook!
+        //
+        //	Obviously, the number 402 is easier to remember than the number
+        //110010010, and the number 337377 is easier to remember than the number
+        //957472. This means that the memorized number, on the one hand, should
+        //contain as few digits as possible, and on the other hand, it is
+        //desirable that the number contains as many repeating numbers as
+        //possible.
+        //
+        //	As a criterion for the difficulty of remembering, we take the sum
+        //of the number of digits in number and the number of different digits in
+        //number. A memorized number can be written in another number system,
+        //perhaps then it will be easier to remember. For example, the number
+        //65535 in the hexadecimal notation looks like FFFF. Task
+        //
+        //	You need to write a program for selecting the base of the number
+        //system to minimize the complexity criterion. The base of the number
+        //system must be selected in the range from 2 to 36, then the numbers 0-9
+        //and the English letters A-Z can be used to represent the number. Input
+        //
+        //	The input contains a decimal integer from 1 to 999999999. Output
+        //
+        //	The output must contain the base of the number system (from 2 to
+        //36), minimizing the criterion of memorization complexity, and the
+        //number in the selected number system, separated by one space. If
+        //several bases give the same value for the criterion, then choose the
+        //smallest (base)among them.
+
+        int ret_base=0;
+        String ret_value="";
+        long ret_complexity = Long.MAX_VALUE;
+
+        String cur_value="";
+        long cur_complexity;
+
+        //Once the base is larger than the input the answer won't change
+        for (int i = 2;(i<=36) && (i<=input); i++)
+        {
+            cur_value = RebaseNumber(input,i);
+            cur_complexity = cur_value.chars().distinct().count();
+            cur_complexity+=cur_value.length();
+            if (cur_complexity < ret_complexity) {
+                ret_complexity =cur_complexity;
+                ret_base = i;
+                ret_value = cur_value;
+            }
+        }
+        return Integer.toString(ret_base) + " " + ret_value;
+    }
+
+
+    public static String RebaseNumber(int number, int base) {
+        //Writes a decimal number in any base between 2 and 36
+        //Use the following as "digits"
+        char[] digits = {'0','1','2','3','4','5','6','7','8','9'
+                        ,'a','b','c','d','e','f','g','h','i','j'
+                        ,'k','l','m','n','o','p','q','r','s','t'
+                        ,'u','v','w','x','y','z'};
+
+            if ((base<2) || (base > 36))
+            throw new IllegalArgumentException("The base should be a value between 2 and 36.");
+
+        //Will use a string builder to concatenate the result into a valid string;
+        StringBuilder result = new StringBuilder();
+        while (number >= base) {
+            result.append(digits[(number % base)]);
+            number /= base;
+        }
+        //Append the last one
+        result.append(digits[(number)]);
+        // The result is reversed so flip it for return
+        return result.reverse().toString();
     }
 }

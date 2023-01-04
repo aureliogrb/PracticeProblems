@@ -27,3 +27,6 @@ puzzles are medium difficulty. Friday’s are supposed to be the most challengin
 
 https://programmingpraxis.com/
 about 500 interesting programming challenges. 
+
+https://adventofcode.com
+Practice problems, one per day December
